@@ -5,6 +5,15 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 
 
+class PublishedManager(models.Manager):
+    def get_queryset(self):
+        queryset = super(PublishedManager, self)\
+            .get_queryset()\
+            .filter(status='published')
+        
+        return queryset
+
+
 class Post(models.Model):
     STATUS_CHOICE = (
         ('draft', 'Draft'), ('published', 'Published')
@@ -22,6 +31,9 @@ class Post(models.Model):
     status = models.CharField(max_length=10,
                               choices=STATUS_CHOICE,
                               default='draft')
+
+    published = PublishedManager()
+    objects = models.Manager()
 
     class Meta:
         ordering = ('-publish',)
