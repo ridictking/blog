@@ -24,7 +24,7 @@ class Post(models.Model):
                               default='draft')
 
     class Meta:
-        ordering = '-publish'
+        ordering = ('-publish',)
 
     def __str___(self):
         return self.title
